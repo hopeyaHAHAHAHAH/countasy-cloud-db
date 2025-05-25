@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countasy</title>
+    <link href="dist/output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+        .poppins-medium {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 13px;
+        }
+    </style>
+
+</head>
+
+<body class="relative h-screen flex flex-col items-center justify-center" style="font-family: 'Poppins', sans-serif;
+           background-color: #EFF3EA;
+           background-size: 40px 40px;
+           background-image:
+               linear-gradient(to right, rgba(128, 128, 128, 0.2) 1px, transparent 1px),
+               linear-gradient(to bottom, rgba(128, 128, 128, 0.2) 1px, transparent 1px);">
+
+
+
+    <nav class="fixed top-0 left-0 w-full bg-[#F1E7E7] shadow-[0_4px_10px_rgba(255,105,180,0.4)] z-50 
+md:left-10 md:max-w-[95%] md:mx-auto 
+md:border-l-2 md:border-r-2 md:border-b-2 md:border-black 
+md:rounded-bl-[50px] md:rounded-br-[50px]">
+
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-6">
+                    <img src="symbols/logo.gif" alt="Logo" class="h-10 w-30">
+                    <div x-data="{ open: false }" class="md:hidden">
+                        <button @click="open = !open" class="p-2 rounded-md text-gray-700 hover:bg-gray-200">
+                            ☰
+                        </button>
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute top-16 left-0 w-full bg-white shadow-md">
+                            <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Home</a>
+                            <a href="chooselevel.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Quiz</a>
+                            <a href="results.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Results</a>
+                            <a href="feedback.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feedback</a>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-gray-700 hover:text-blue-500 font-medium transition">Home</a>
+                        <a href="chooselevel.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Quiz</a>
+                        <a href="results.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Results</a>
+                        <a href="feedback.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Feedback</a>
+                    </div>
+                </div>
+
+                <!---------------------------------------------------- Music ----------------------------------------------------------->
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleMusic()" class="p-2 rounded-full bg-yellow-400 text-black border-2 border-black 
+                           hover:bg-yellow-300 hover:border-blue-500 hover:text-blue-700 
+                           transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+                        🎵
+                    </button>
+
+                    <audio id="bg-music" loop>
+                        <source src="music.mp3" type="audio/mpeg">
+                    </audio>
+                    <!----------------------------------------------- end of Music ------------------------------------------------------>
+
+
+                    <!-- Profile Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="bg-[#B3E6E1] flex items-center space-x-2 px-3 py-2 rounded-full 
+                               border-2 border-black transition-all duration-300 
+                               hover:bg-[#A0D7D2] hover:border-[#79B8B3] hover:shadow-md hover:scale-105">
+                            <img src="profile.jpg" alt="Profile" class="h-8 w-8 rounded-full">
+                            <span class="hidden md:inline font-medium">Profile</span>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 transition transform origin-top scale-95"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90">
+
+                            <!-- Online Status -->
+                            <div class="px-4 py-2 flex items-center space-x-2 border-b">
+                                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm font-medium text-gray-700">Online</span>
+                            </div>
+
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!--end of navbar-->
+
+
+    <!--------------------------------------------------------- content --------------------------------------------------------------->
+
+
+
+    <div
+        class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-lg text-center mt-[100px]  lg:mt-[100px] outline outline-4 outline-black">
+        <div id="question-card"
+            class="bg-[#2F4F2F] w-full max-w-6xl min-h-64 p-12 rounded-3xl text-4xl font-bold transition-all duration-500 border-4 border-red-400 text-white shadow-lg outline outline-4 outline-black flex items-center justify-center"
+            style="font-family: 'Shadows Into Light', cursive;">
+            Loading...
+        </div>
+
+        <div id="choices-container" class="mt-4 grid grid-cols-4 gap-4">
+            <button class="choice-btn p-4 rounded-full text-lg font-semibold border-2 border-black transition 
+                       bg-blue-300 hover:bg-blue-500 transform hover:scale-110 hover:shadow-lg">
+            </button>
+            <button class="choice-btn p-4 rounded-full text-lg font-semibold border-2 border-black transition 
+                       bg-orange-300 hover:bg-orange-500 transform hover:scale-110 hover:shadow-lg">
+            </button>
+            <button class="choice-btn p-4 rounded-full text-lg font-semibold border-2 border-black transition 
+                       bg-yellow-300 hover:bg-yellow-500 transform hover:scale-110 hover:shadow-lg">
+            </button>
+            <button class="choice-btn p-4 rounded-full text-lg font-semibold border-2 border-black transition 
+                       bg-purple-300 hover:bg-purple-500 transform hover:scale-110 hover:shadow-lg">
+            </button>
+        </div>
+
+
+        <input type="text" id="text-answer" class="mt-5 w-full p-3 rounded-lg border-2 border-black text-lg hidden"
+            placeholder="Type your answer here...">
+        <button id="submit-answer"
+            class="hidden border-2 border-black bg-green-500 text-white px-4 py-2 rounded mt-2 hover:bg-green-700 hover:border-green-700 transition duration-200">
+            Submit
+        </button>
+
+
+
+        <div class="mt-4 bg-gray-300 h-3 rounded-full border-2 border-black">
+            <div id="timer-bar" class="h-full bg-green-500 rounded-full transition-all"></div>
+        </div>
+        <p id="score" class="mt-4 text-lg font-semibold">Score: 0</p>
+    </div>
+
+    <div class="mt-6 flex gap-4">
+        <button id="start-btn"
+            class="bg-yellow-400 text-black text-xl font-bold px-6 py-3 rounded-full border-2 border-black hover:bg-yellow-500 transition">
+            Start
+        </button>
+        <button id="restart-btn"
+            class="bg-red-500 text-white text-xl font-bold px-6 py-3 rounded-full border-2 border-black hover:bg-red-600 transition hidden">
+            Restart Game
+        </button>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <p id="modal-text" class="text-xl font-semibold">Game Over!</p>
+        </div>
+    </div>
+
+
+    <!------------------------------------------ content ------------------------------------------------->
+
+
+
+
+
+    <script>
+        const questionCard = document.getElementById("question-card");
+        const choices = document.querySelectorAll(".choice-btn");
+        const choicesContainer = document.getElementById("choices-container");
+        const timerBar = document.getElementById("timer-bar");
+        const scoreDisplay = document.getElementById("score");
+        const modal = document.getElementById("modal");
+        const modalText = document.getElementById("modal-text");
+        const startBtn = document.getElementById("start-btn");
+        const restartBtn = document.getElementById("restart-btn");
+        const textAnswer = document.getElementById("text-answer");
+        const submitAnswer = document.getElementById("submit-answer");
+
+        let score = 0;
+        let correctAnswer = 0;
+        let questionCount = 0;
+        let timeLeft = 60;
+        let gameInterval;
+        let isPaused = false;
+
+        const inputQuestions = [
+            { question: "You have 50 pesos. You buy a notebook for 23 pesos and a pen for 12 pesos. How much money do you have left?", answer: 15, type: "input" },
+            { question: "A baker made 36 cupcakes. He sold 15 in the morning and 8 in the afternoon. How many are left?", answer: 13, type: "input" },
+            { question: "There are 18 ducks in a pond. 7 more ducks join them, but 5 swim away. How many ducks are now in the pond?", answer: 20, type: "input" },
+            { question: "A school library has 120 books. They receive 35 new books but remove 18 old ones. How many books do they have now?", answer: 137, type: "input" },
+            { question: "A farmer has 64 mangoes. He puts them into bags with 8 mangoes in each bag. How many bags does he have?", answer: 8, type: "input" }
+        ];
+
+
+        const choiceQuestions = [
+            { question: "A store sells apples in packs of 6. If you buy 5 packs, how many apples do you get?", answer: 30, type: "choice" },
+            { question: "Lena has 40 stickers. She gives 12 to her brother and 15 to her friend. How many does she have left?", answer: 13, type: "choice" },
+            { question: "A parking lot has 7 rows of cars. Each row has 9 cars. How many cars are in the parking lot?", answer: 63, type: "choice" },
+            { question: "A farmer collects 144 eggs in a week. If he collects the same amount daily, how many eggs does he collect in one day?", answer: 18, type: "choice" },
+            { question: "A basketball team scored 25 points in the first half and 37 points in the second half. How many points did they score in total?", answer: 62, type: "choice" },
+            { question: "A zoo has 9 cages. Each cage has 3 monkeys. How many monkeys are in the zoo?", answer: 27, type: "choice" },
+            { question: "A bookstore has 90 books on one shelf and 75 books on another shelf. How many books are there in total?", answer: 165, type: "choice" },
+            { question: "A truck carries 500 kilograms of rice. If each sack holds 50 kilograms, how many sacks are in the truck?", answer: 10, type: "choice" },
+            { question: "A garden has 6 rows of flowers. Each row has 8 flowers. How many flowers are in the garden?", answer: 48, type: "choice" },
+            { question: "A bakery makes 250 loaves of bread every day. How many loaves do they make in 4 days?", answer: 1000, type: "choice" }
+        ];
+
+
+        const shuffledInputQuestions = [...inputQuestions].sort(() => Math.random() - 0.5);
+        const shuffledChoiceQuestions = [...choiceQuestions].sort(() => Math.random() - 0.5);
+
+        function generateQuestion() {
+            if (questionCount >= 10) {
+                endGame();
+                return;
+            }
+
+            textAnswer.value = "";
+            questionCount++;
+
+            let selectedScenario = questionCount % 2 === 0 ? shuffledChoiceQuestions.pop() : shuffledInputQuestions.pop();
+
+            if (!selectedScenario) {
+                endGame();
+                return;
+            }
+
+            correctAnswer = selectedScenario.answer;
+            questionCard.textContent = selectedScenario.question;
+
+            if (selectedScenario.type === "choice") {
+                showMultipleChoice();
+                let answers = [correctAnswer];
+                while (answers.length < 4) {
+                    let wrongAnswer = Math.floor(Math.random() * 30) + 1;
+                    if (!answers.includes(wrongAnswer)) {
+                        answers.push(wrongAnswer);
+                    }
+                }
+                answers.sort(() => Math.random() - 0.5);
+
+                choices.forEach((btn, index) => {
+                    btn.textContent = answers[index];
+                    btn.onclick = () => checkAnswer(answers[index], btn);
+                    btn.classList.remove("bg-green-500", "bg-red-500");
+                });
+            } else {
+                showInputField();
+            }
+        }
+
+        function checkAnswer(answer, btn) {
+            if (isPaused) return;
+
+            if (answer === correctAnswer) {
+                if (btn) btn.classList.add("bg-green-500");
+                score++;
+            } else {
+                if (btn) btn.classList.add("bg-red-500");
+            }
+
+            scoreDisplay.textContent = `Score: ${score}`;
+            setTimeout(generateQuestion, 1000);
+        }
+
+        function showMultipleChoice() {
+            choicesContainer.classList.remove("hidden");
+            textAnswer.classList.add("hidden");
+            submitAnswer.classList.add("hidden");
+        }
+
+        function showInputField() {
+            choicesContainer.classList.add("hidden");
+            textAnswer.classList.remove("hidden");
+            submitAnswer.classList.remove("hidden");
+        }
+
+        submitAnswer.onclick = function () {
+            const userAnswer = parseInt(textAnswer.value.trim(), 10);
+            checkAnswer(userAnswer, null);
+        };
+
+        function updateTimer() {
+            clearInterval(gameInterval);
+            gameInterval = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    timerBar.style.width = `${(timeLeft / 300) * 100}%`;
+                    if (timeLeft <= 0) {
+                        endGame();
+                    }
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            modal.classList.remove("hidden");
+            modalText.innerHTML = `🎉 Congratulations! Your score: ${score}`;
+
+            let pastScores = JSON.parse(localStorage.getItem("pastScores")) || [];
+            pastScores.push({ score: score, date: new Date().toLocaleString() });
+            localStorage.setItem("pastScores", JSON.stringify(pastScores));
+
+            const buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("mt-4", "flex", "justify-center", "gap-4");
+
+            const startButton = document.createElement("button");
+            startButton.textContent = "Start Again";
+            startButton.classList.add("border", "border-blue-500", "text-blue-500", "px-4", "py-2", "rounded", "hover:bg-blue-500", "hover:text-white", "transition");
+            startButton.onclick = restartGame;
+
+            const scoreButton = document.createElement("button");
+            scoreButton.textContent = "View Results";
+            scoreButton.classList.add("border", "border-green-500", "text-green-500", "px-4", "py-2", "rounded", "hover:bg-green-500", "hover:text-white", "transition");
+            scoreButton.onclick = () => {
+                window.location.href = "results.html";
+            };
+
+            buttonContainer.appendChild(startButton);
+            buttonContainer.appendChild(scoreButton);
+            modalText.appendChild(buttonContainer);
+
+            startBtn.classList.add("hidden");
+            restartBtn.classList.add("hidden");
+        }
+
+        function startCountdown(callback) {
+            modal.classList.remove("hidden");
+            modalText.textContent = "Starting in 3...";
+            let count = 3;
+            let countdown = setInterval(() => {
+                count--;
+                modalText.textContent = `Starting in ${count}...`;
+                if (count === 0) {
+                    clearInterval(countdown);
+                    modal.classList.add("hidden");
+                    callback();
+                }
+            }, 1000);
+        }
+
+        function startGame() {
+            score = 0;
+            questionCount = 0;
+            timeLeft = 300;
+            isPaused = false;
+            scoreDisplay.textContent = `Score: ${score}`;
+            restartBtn.classList.remove("hidden");
+            startBtn.textContent = "Pause";
+            startBtn.onclick = pauseGame;
+            startCountdown(() => {
+                generateQuestion();
+                updateTimer();
+            });
+        }
+
+        function pauseGame() {
+            isPaused = true;
+            startBtn.textContent = "Resume";
+            startBtn.onclick = resumeGame;
+        }
+
+        function resumeGame() {
+            isPaused = false;
+            startBtn.textContent = "Pause";
+            startBtn.onclick = pauseGame;
+        }
+
+        function restartGame() {
+            modal.classList.add("hidden");
+            clearInterval(gameInterval);
+            startGame();
+        }
+
+        startBtn.onclick = startGame;
+        restartBtn.onclick = restartGame;
+
+
+    </script>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countasy</title>
+    <link href="dist/output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+        .poppins-medium {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 13px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+
+</head>
+
+<body class="relative h-screen flex flex-col items-center justify-center" style="font-family: 'Poppins', sans-serif;
+           background-color: #EFF3EA;
+           background-size: 40px 40px;
+           background-image:
+               linear-gradient(to right, rgba(128, 128, 128, 0.2) 1px, transparent 1px),
+               linear-gradient(to bottom, rgba(128, 128, 128, 0.2) 1px, transparent 1px);">
+
+
+
+
+    <!-----------------------------------------------------------navbar---------------------------------------------------------------------->
+
+    <nav class="fixed top-0 left-0 w-full bg-[#F1E7E7] shadow-[0_4px_10px_rgba(255,105,180,0.4)] z-50 
+md:left-10 md:max-w-[95%] md:mx-auto 
+md:border-l-2 md:border-r-2 md:border-b-2 md:border-black 
+md:rounded-bl-[50px] md:rounded-br-[50px]">
+
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+
+                <div class="flex items-center space-x-6">
+                    <img src="symbols/logo.gif" alt="Logo" class="h-10 w-30">
+
+
+                    <div x-data="{ open: false }" class="md:hidden">
+                        <button @click="open = !open" class="p-2 rounded-md text-gray-700 hover:bg-gray-200">
+                            ☰
+                        </button>
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute top-16 left-0 w-full bg-white shadow-md">
+                            <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Home</a>
+                            <a href="chooselevel.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Quiz</a>
+                            <a href="results.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Results</a>
+                            <a href="feedback.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feedback</a>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-gray-700 hover:text-blue-500 font-medium transition">Home</a>
+                        <a href="chooselevel.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Quiz</a>
+                        <a href="results.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Results</a>
+                        <a href="feedback.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Feedback</a>
+                    </div>
+                </div>
+
+
+
+
+                <!-- --------------------------------------------------Music------------------------------------------------------------->
+                <div class="flex items-center space-x-4">
+
+                    <button onclick="toggleMusic()" class="p-2 rounded-full bg-yellow-400 text-black border-2 border-black 
+                           hover:bg-yellow-300 hover:border-blue-500 hover:text-blue-700 
+                           transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+                        🎵
+                    </button>
+
+                    <audio id="bg-music" loop>
+                        <source src="music.mp3" type="audio/mpeg">
+                    </audio>
+                    <!------------------------------------------end of Music -------------------------------------------------------------->
+
+
+                    <!--------------------------------------- Profile Dropdown---------------------------------------------------------- -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="bg-[#B3E6E1] flex items-center space-x-2 px-3 py-2 rounded-full 
+                               border-2 border-black transition-all duration-300 
+                               hover:bg-[#A0D7D2] hover:border-[#79B8B3] hover:shadow-md hover:scale-105">
+                            <img src="profile.jpg" alt="Profile" class="h-8 w-8 rounded-full">
+                            <span class="hidden md:inline font-medium">Profile</span>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 transition transform origin-top scale-95"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90">
+
+
+                            <div class="px-4 py-2 flex items-center space-x-2 border-b">
+                                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm font-medium text-gray-700">Online</span>
+                            </div>
+
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+
+                    <!--------------------------------------------- Profile Dropdown -------------------------------------------------------->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!------------------------------------------------------------------ content------------------- ------------------------------------------------->
+
+
+
+    <section class="absolute w-full h-screen bg-cover bg-center mt-[80px]">
+        <div class=" flex items-center justify-center h-full text-black text-center ">
+            <div>
+                <img src="symbols/logo.gif" alt="logo"
+                    class="w-[70%] max-w-[800px] md:w-[900px] mx-auto flex justify-center">
+
+                <p class="text-lg mt-2 font-semibold">🌟 Where Learning Math is an Adventure! 🌟</p>
+                <p class="text-xs sm:text-sm md:text-base  font-normal w-full max-w-[800px]">
+                    Join us on a fun and exciting journey through the world of numbers! Countasy makes learning math
+                    easy,
+                    interactive, and enjoyable for kids of all ages.
+                </p>
+
+
+                <div class="mt-8">
+                    <button id="bubbleButton" onclick="window.location.href='chooselevel.html'" class="relative top-0 bg-gradient-to-b from-yellow-300 to-yellow-500 text-black px-8 sm:px-12 py-3 sm:py-4 
+        rounded-full text-base sm:text-lg font-bold transition-all duration-300 ease-in-out 
+        active:scale-95 active:translate-y-1 active:shadow-inner border-2 border-black font-mono 
+        shadow-md hover:shadow-lg hover:brightness-110 hover:-translate-y-0.5 
+        before:absolute before:inset-0 before:-z-10 before:rounded-full 
+        before:bg-yellow-300 before:blur-md before:w-full before:h-full 
+        before:transition-all before:duration-300 before:ease-in-out hover:before:blur-xl">
+                        Start Learning
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <img src="symbols/42.png" alt="Left Image"
+        class="absolute top-[400px] bottom-0 left-0 w-[600px] z-[-1] hidden sm:block">
+    <img src="symbols/41.png" alt="Right Image"
+        class="absolute top-[400px] bottom-0 right-0 w-[600px] z-[-1] hidden sm:block">
+
+    <!--------------------------------------------------------end of introduction------------------------------------------------------------->
+
+
+
+
+
+
+    <div class="flex flex-col items-center text-center mt-[2300px] sm:mt-[1000px] lg:mt-[1600px] px-4">
+        <h1
+            class="bg-[#A0DBD7] px-6 py-3 rounded-full shadow-md border-2 border-black text-2xl sm:text-3xl md:text-4xl font-bold mb-6 w-fit mx-auto">
+            How It Works?
+        </h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl w-full mx-auto px-4">
+            <div
+                class="bg-white p-6 rounded-lg shadow-md text-center border-2 border-black  transition duration-300 hover:shadow-2xl hover:bg-yellow-100 shine-effect">
+                <img src="symbols/24.png" alt="Start Game" class="w-20 h-20 mx-auto mb-3">
+                <h3 class="mt-10 font-bold text-lg">Step 1</h3>
+                <p class="text-sm">Click "Start Quiz" to begin.</p>
+            </div>
+            <div
+                class="bg-white p-6 rounded-lg shadow-md text-center border-2 border-black  transition duration-300 hover:shadow-2xl hover:bg-blue-100 shine-effect">
+                <img src="symbols/25.png" alt="Use Controls" class="w-20 h-20 mx-auto mb-3">
+                <h3 class="mt-10 font-bold text-lg">Step 2</h3>
+                <p class="text-sm">Answer the multiple-choice questions before the timer runs out.</p>
+            </div>
+            <div
+                class="bg-white p-6 rounded-lg shadow-md text-center border-2 border-black  transition duration-300 hover:shadow-2xl hover:bg-pink-100 shine-effect">
+                <img src="symbols/26.png" alt="Win Game" class="w-20 h-20 mx-auto mb-3">
+                <h3 class="mt-10 font-bold text-lg">Step 3</h3>
+                <p class="text-sm">See your score at the end and try again to improve!</p>
+            </div>
+        </div>
+        <img src="symbols/1.png" alt="Image 4"
+            class="absolute top-[120%] right-[5%] w-[200px] animate-float hidden sm:block">
+        <img src="symbols/2.png" alt="Image 2"
+            class="absolute top-[140%] left-[5%] w-[200px] animate-float hidden sm:block">
+    </div>
+
+
+    <div class="max-w-6xl mx-auto px-4 mt-20 sm:mt-20 lg:mt-20">
+        <h1
+            class="bg-[#A0DBD7] px-6 py-3 rounded-full shadow-md border-2 border-black text-2xl sm:text-3xl md:text-4xl font-bold mb-6 w-fit mx-auto">
+            Why Play Countasy?
+        </h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+            <!-- Card 1 -->
+            <div
+                class="relative bg-white border-2 border-black shadow-lg rounded-xl p-6 text-center  transition duration-300 hover:shadow-2xl hover:bg-green-100 shine-effect">
+                <div
+                    class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white border-2 border-black rounded-full w-16 h-16 flex items-center justify-center transition-all duration-300 hover:shadow-2xl">
+                    <img src="symbols/27.png" alt="Fun to Play" class="w-10 h-10">
+                </div>
+                <h3 class="text-lg font-bold mt-12 text-black">Fun & Interactive</h3>
+                <p class="text-sm text-gray-700 mt-2">Enjoy an exciting way to improve your numeracy skills with a
+                    game-like
+                    experience!</p>
+            </div>
+
+
+            <div
+                class="relative bg-white border-2 border-black shadow-lg rounded-xl p-6 text-center  transition duration-300 hover:shadow-2xl hover:bg-red-100 shine-effect">
+                <div
+                    class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white border-2 border-black rounded-full w-16 h-16 flex items-center justify-center transition-all duration-300 hover:shadow-2xl">
+                    <img src="symbols/28.png" alt="Boost Skills" class="w-10 h-10">
+                </div>
+                <h3 class="text-lg font-bold mt-12 text-black">Boosts Math Skills</h3>
+                <p class="text-sm text-gray-700 mt-2">Practice addition, subtraction, multiplication, and more in a
+                    stress-free
+                    environment.</p>
+            </div>
+
+
+            <div
+                class="relative bg-white border-2 border-black shadow-lg rounded-xl p-6 text-center  transition duration-300 hover:shadow-2xl hover:bg-yellow-100 shine-effect">
+                <div
+                    class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white border-2 border-black rounded-full w-16 h-16 flex items-center justify-center transition-all duration-300 hover:shadow-2xl">
+                    <img src="symbols/29.png" alt="Compete & Improve" class="w-10 h-10">
+                </div>
+                <h3 class="text-lg font-bold mt-12 text-black">Compete & Improve</h3>
+                <p class="text-sm text-gray-700 mt-2">Track your scores, challenge yourself, and climb the leaderboard
+                    to become
+                    the best!</p>
+            </div>
+        </div>
+    </div>
+
+
+    <img src="symbols/35.png" alt="Image 1"
+        class="absolute top-[40%] left-[5%] w-[190px] animate-float hidden sm:block">
+
+    <img src="symbols/37.png" alt="Image 2"
+        class="absolute top-[20%] left-[13%] w-[150px] animate-float hidden sm:block">
+
+    <img src="symbols/38.png" alt="Image 3"
+        class="absolute top-[20%] right-[14%] w-[150px] animate-float hidden sm:block">
+
+    <img src="symbols/36.png" alt="Image 4"
+        class="absolute top-[40%] right-[6%] w-[190px] animate-float hidden sm:block">
+
+    <!----------------------------------------------------end of content----------------------------------------------------------------->
+
+    <div class="relative w-full">
+        <div class="hidden md:block w-full absolute bottom-10 left-0 -z-10">
+            <img src="symbols/grass.png" alt="Grass" class="w-full h-30 object-cover">
+        </div>
+
+        <footer class="w-full bg-[#FFF3CD] border-t-4 border-black text-center py-6 mt-16 shadow-lg relative z-10">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <p class="text-black font-bold text-md">© 2025 Countasy. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!------------------------------------------------------------script------------------------------------------------------------------->
+    <script>
+        function toggleMusic() {
+            let audio = document.getElementById('bg-music');
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+    </script>
+</body>
+
+</html>

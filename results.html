@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countasy</title>
+    <link href="dist/output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+        .poppins-medium {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 13px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .leaderboard-row {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        @keyframes rainbow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .rank-rainbow {
+            background: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #8F00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 1400% 100%;
+            animation: rainbow 5s linear infinite;
+        }
+    </style>
+
+</head>
+
+<body class="relative h-screen flex flex-col items-center justify-center" style="font-family: 'Poppins', sans-serif;
+           background-color: #EFF3EA;
+           background-size: 40px 40px;
+           background-image:
+               linear-gradient(to right, rgba(128, 128, 128, 0.2) 1px, transparent 1px),
+               linear-gradient(to bottom, rgba(128, 128, 128, 0.2) 1px, transparent 1px);">
+
+
+
+
+    <!-----------------------------------------------------------navbar---------------------------------------------------------------------->
+
+    <nav class="fixed top-0 left-0 w-full bg-[#F1E7E7] shadow-[0_4px_10px_rgba(255,105,180,0.4)] z-50 
+md:left-10 md:max-w-[95%] md:mx-auto 
+md:border-l-2 md:border-r-2 md:border-b-2 md:border-black 
+md:rounded-bl-[50px] md:rounded-br-[50px]">
+
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+
+                <div class="flex items-center space-x-6">
+                    <img src="symbols/logo.gif" alt="Logo" class="h-10 w-30">
+
+
+                    <div x-data="{ open: false }" class="md:hidden">
+                        <button @click="open = !open" class="p-2 rounded-md text-white-700 hover:bg-white-200">
+                            ☰
+                        </button>
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute top-16 left-0 w-full bg-white shadow-md">
+                            <a href="index.html" class="block px-4 py-2 text-white-700 hover:bg-blue-100">Home</a>
+                            <a href="chooselevel.html" class="block px-4 py-2 text-white-700 hover:bg-blue-100">Quiz</a>
+                            <a href="results.html" class="block px-4 py-2 text-white-700 hover:bg-blue-100">Results</a>
+                            <a href="feedback.html" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feedback</a>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-white-700 hover:text-blue-500 font-medium transition">Home</a>
+                        <a href="chooselevel.html"
+                            class="text-white-700 hover:text-blue-500 font-medium transition">Quiz</a>
+                        <a href="results.html"
+                            class="text-white-700 hover:text-blue-500 font-medium transition">Results</a>
+                        <a href="feedback.html"
+                            class="text-gray-700 hover:text-blue-500 font-medium transition">Feedback</a>
+                    </div>
+                </div>
+
+
+
+
+                <!-- --------------------------------------------------Music------------------------------------------------------------->
+                <div class="flex items-center space-x-4">
+
+                    <button onclick="toggleMusic()" class="p-2 rounded-full bg-yellow-400 text-black border-2 border-black 
+                           hover:bg-yellow-300 hover:border-blue-500 hover:text-blue-700 
+                           transition-all duration-300 transform hover:scale-105 hover:shadow-md">
+                        🎵
+                    </button>
+
+                    <audio id="bg-music" loop>
+                        <source src="music.mp3" type="audio/mpeg">
+                    </audio>
+                    <!------------------------------------------end of Music -------------------------------------------------------------->
+
+
+                    <!--------------------------------------- Profile Dropdown---------------------------------------------------------- -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="bg-[#B3E6E1] flex items-center space-x-2 px-3 py-2 rounded-full 
+                               border-2 border-black transition-all duration-300 
+                               hover:bg-[#A0D7D2] hover:border-[#79B8B3] hover:shadow-md hover:scale-105">
+                            <img src="profile.jpg" alt="Profile" class="h-8 w-8 rounded-full">
+                            <span class="hidden md:inline font-medium">Profile</span>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 transition transform origin-top scale-95"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90">
+
+
+                            <div class="px-4 py-2 flex items-center space-x-2 border-b">
+                                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm font-medium text-white-700">Online</span>
+                            </div>
+
+                            <a href="#" class="block px-4 py-2 text-white-700 hover:bg-white-100">Settings</a>
+                            <a href="#" class="block px-4 py-2 text-white-700 hover:bg-white-100">Logout</a>
+                        </div>
+                    </div>
+
+                    <!--------------------------------------------- Profile Dropdown -------------------------------------------------------->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <h1
+        class="bg-[#A0DBD7] px-6 py-3 rounded-full shadow-md border-2 border-black text-2xl sm:text-3xl md:text-4xl font-bold mb-6 w-fit mx-auto mt-[400px]">
+        LeaderBoard
+    </h1>
+
+    <div class="container mx-auto px-4">
+        <div class="rounded-xl border-2 border-black shadow-2xl w-full md:w-[1300px] mx-auto overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-[#F1E7E7] ">
+                    <tr>
+                        <th scope="col" class="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                            Rank</th>
+                        <th scope="col" class="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                            Profile</th>
+                        <th scope="col" class="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                            Player Name</th>
+                        <th scope="col" class="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                            Stars</th>
+                        <th scope="col" class="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                            Total Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div class="relative w-full">
+        <div class="hidden md:block w-full absolute bottom-10 left-0 -z-10">
+            <img src="symbols/grass.png" alt="Grass" class="w-full h-30 object-cover">
+        </div>
+
+        <footer class="w-full bg-[#FFF3CD] border-t-4 border-black text-center py-6 mt-16 shadow-lg relative z-10">
+            <div class="max-w-screen-xl mx-auto px-6">
+                <p class="text-black font-bold text-md">© 2025 Countasy. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-black hover:text-yellow-500 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script>
+        const leaderboardData = [
+            { rank: 1, profilePic: 'user1.png', playerName: 'GalaxyGamerX', stars: 5, totalScore: 1578325 },
+            { rank: 2, profilePic: 'user2.png', playerName: 'ShadowStrike88', stars: 4, totalScore: 1450980 },
+            { rank: 3, profilePic: 'user3.png', playerName: 'CosmicQueen_Alpha', stars: 4, totalScore: 1395600 },
+            { rank: 4, profilePic: 'user4.png', playerName: 'NeonReaper7', stars: 3, totalScore: 1287450 },
+            { rank: 5, profilePic: 'user5.png', playerName: 'StellarSorcerer', stars: 3, totalScore: 1222111 },
+            { rank: 6, profilePic: 'user6.png', playerName: 'PixelPioneer', stars: 2, totalScore: 1150000 },
+            { rank: 7, profilePic: 'user7.png', playerName: 'CyberNinja2049', stars: 2, totalScore: 1098765 },
+            { rank: 8, profilePic: 'user8.png', playerName: 'LunarLegend', stars: 1, totalScore: 987654 },
+            { rank: 9, profilePic: 'user9.png', playerName: 'AtomicAvenger', stars: 1, totalScore: 923456 },
+            { rank: 10, profilePic: 'user10.png', playerName: 'BinaryBomber', stars: 0, totalScore: 876543 },
+        ];
+
+        const leaderboardBody = document.getElementById('leaderboard-body');
+
+        function renderLeaderboard() {
+            leaderboardBody.innerHTML = ''; // Clear existing rows
+
+            leaderboardData.forEach((player, index) => {
+                const row = leaderboardBody.insertRow();
+                row.classList.add('bg-white', 'dark:bg-gray-800', 'leaderboard-row');
+                row.style.animationDelay = `${index * 0.05}s`; // Add a slight delay for each row
+
+                const rankCell = row.insertCell();
+                rankCell.classList.add('px-4', 'py-3', 'font-medium', 'text-gray-900', 'dark:text-white', 'whitespace-nowrap', 'rank-rainbow');
+                rankCell.textContent = player.rank;
+
+                const profileCell = row.insertCell();
+                profileCell.classList.add('px-4', 'py-3', 'whitespace-nowrap');
+                const profileDiv = document.createElement('div');
+                profileDiv.classList.add('w-8', 'h-8', 'rounded-full', 'bg-gray-300', 'dark:bg-gray-600', 'flex', 'items-center', 'justify-center', 'overflow-hidden');
+                const profileImage = document.createElement('img');
+                // Replace 'path/to/' with the actual path to your profile images
+                profileImage.src = `path/to/${player.profilePic}`;
+                profileImage.alt = player.playerName;
+                profileImage.classList.add('w-full', 'h-full', 'object-cover');
+                profileDiv.appendChild(profileImage);
+                profileCell.appendChild(profileDiv);
+                // Fallback to an icon if profilePic is not provided or image fails to load
+                profileImage.onerror = () => {
+                    profileDiv.innerHTML = `
+                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                `;
+                };
+
+                const nameCell = row.insertCell();
+                nameCell.classList.add('px-4', 'py-3', 'text-gray-900', 'dark:text-white', 'whitespace-nowrap');
+                nameCell.textContent = player.playerName;
+
+                const starsCell = row.insertCell();
+                starsCell.classList.add('px-4', 'py-3', 'text-yellow-500', 'whitespace-nowrap');
+                starsCell.innerHTML = '⭐'.repeat(player.stars);
+
+                const scoreCell = row.insertCell();
+                scoreCell.classList.add('px-4', 'py-3', 'text-gray-900', 'dark:text-white', 'whitespace-nowrap');
+                scoreCell.textContent = player.totalScore.toLocaleString();
+
+                // Add alternating row background
+                if (player.rank % 2 === 0) {
+                    row.classList.add('bg-gray-50', 'dark:bg-gray-900');
+                }
+            });
+        }
+
+        // Initial rendering of the leaderboard
+        renderLeaderboard();
+
+        // You can add functionality here to update the leaderboard data
+        // and call renderLeaderboard() again to refresh the UI.
+        // For example, you might fetch new data from an API.
+    </script>
+</body>
+
+</html>
